@@ -105,6 +105,10 @@ graphGenPromise.then(() => {
         "middle-middle"
     );
 
-    introJs().start();
+    introJs()
+        .setOptions({
+            showBullets: false,
+        })
+        .start();
     introJs().addHints();
 });
