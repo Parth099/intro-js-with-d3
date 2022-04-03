@@ -108,6 +108,7 @@ graphGenPromise.then(() => {
     introJs()
         .setOptions({
             showBullets: false,
+            steps: [{ element: graph, intro: "Click points on the graph to learn more about the it.", position: "left" }],
         })
         .start();
     introJs().addHints();
