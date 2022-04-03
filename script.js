@@ -61,8 +61,7 @@ const graphGenPromise = d3.csv("https://raw.githubusercontent.com/holtzy/data_to
     //console.log("graph created");
 });
 
-function densityAnalysis() {
-    const graph = document.querySelector("#my_dataviz");
+function getTallestSvgElement(graph) {
     if (!graph) return; //end if no graph found
 
     const densities = graph.querySelectorAll("rect"); //find all rect svg elements
@@ -82,6 +81,30 @@ function densityAnalysis() {
     return nodeMaxHeight;
 }
 
+function addHintToElement(element, text, location) {
+    /*
+        adds the HTML hint options to be picked up by introJs
+    */
+    if (!element) return;
+    element.setAttribute("data-hint", text);
+    element.setAttribute("data-hint-position", location);
+}
+
 graphGenPromise.then(() => {
-    densityAnalysis();
+    const graph = document.querySelector("#my_dataviz");
+    addHintToElement(graph, "This is a Density Graph", "middle-middle");
+
+    const tallest = getTallestSvgElement(graph);
+    addHintToElement(tallest, "This data point is the most likely to occur!", "top-middle");
+
+    const axes = document.querySelectorAll(".domain");
+    addHintToElement(axes[0], "This is the x-axis, it represents all the events that can occur in the experiment", "top-right");
+    addHintToElement(
+        axes[1],
+        "The y-axis represents the chance it will occur or the number of occurrences, the taller the spike the more likely it is to occur!",
+        "middle-middle"
+    );
+
+    introJs().start();
+    introJs().addHints();
 });
